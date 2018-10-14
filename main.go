@@ -1,9 +1,8 @@
 package main
 
 import (
-	_ "imdata/routers"
-	_ "imdata/models/dbproc"
-	_ "imdata/models/tcpproc"
+	_ "sdbackend/routers"
+	_ "sdbackend/models/dbproc"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/plugins/cors"
 )

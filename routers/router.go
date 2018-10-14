@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"imdata/controllers"
+	"sdbackend/controllers"
 	"github.com/astaxie/beego"
 )
 

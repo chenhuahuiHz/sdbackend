@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
-	"imdata/models/dbproc"
+	"sdbackend/models/dbproc"
 	//"encoding/json"
 	//"strings"
 	//"prototcp/typedefs"

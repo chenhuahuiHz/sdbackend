@@ -22,6 +22,8 @@ func InitSDSql() {
 	if beego.AppConfig.String("runmode") == "dev" {
 		orm.Debug = true
 	}
+
+	beego.Info("init mysql ...", user, passwd, host, port, dbname)
 	//orm.RegisterDriver("mysql", orm.DRMySQL)
 	err = orm.RegisterDataBase("default", "mysql", fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8", user, passwd, host, port, dbname))
 	err = orm.RegisterDataBase("low_dream", "mysql", fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8", user, passwd, host, port, dbname))
@@ -29,6 +31,8 @@ func InitSDSql() {
 		beego.Error("init mysql db error.")
 		return
 	}
+	
+	beego.Info("init mysql ok")
 
 	LowDreamORM = orm.NewOrm()
 	LowDreamORM.Using("low_dream")

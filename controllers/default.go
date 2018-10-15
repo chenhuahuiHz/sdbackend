@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/astaxie/beego"
 	"sdbackend/models/dbproc"
-	"strings"
+	//"strings"
 
 	//"encoding/json"
 	//"strings"
@@ -28,7 +28,7 @@ func (c *MainController) ObjList() {
 	//date := strings.Replace(c.GetString("date"), "-", "", -1)
 	//beego.Info(date, sqlstr)
 
-	result := dbproc.SelectObjListByMainType(1)
+	result := dbproc.SelectObjListByMainType(dbproc.MyAtoi(c.GetString("maintype")))
 
 	data, err := json.Marshal(&result)
 	if err != nil {

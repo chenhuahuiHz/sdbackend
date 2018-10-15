@@ -38,8 +38,9 @@ func InitSDSql() {
 	LowDreamORM.Using("low_dream")
 }
 
-func SelectObjListByMainType(mainType int8) (rows []ObjRow){
+func SelectObjListByMainType(mainType int) (rows []ObjRow){
 
+	beego.Info("SelectObjListByMainType ...", mainType)
 	if nil == LowDreamORM {
 		beego.Error("SelectObjListByMainType failed: db not connected")
 		return nil

@@ -1,8 +1,11 @@
 package controllers
 
 import (
+	"encoding/json"
 	"github.com/astaxie/beego"
 	"sdbackend/models/dbproc"
+	"strings"
+
 	//"encoding/json"
 	//"strings"
 	//"prototcp/typedefs"
@@ -24,13 +27,13 @@ func (c *MainController) ObjList() {
 	//sqlstr := c.GetString("sql")
 	//date := strings.Replace(c.GetString("date"), "-", "", -1)
 	//beego.Info(date, sqlstr)
-	//
-	//result := dbproc.SelectLotteryWithSql(sqlstr, date)
-	//
-	//data, err := json.Marshal(&result)
-	//if err != nil {
-	//	beego.Info(err)
-	//}
-	////beego.Info("data...", string(data))
-	//c.Ctx.WriteString(string(data))
+
+	result := dbproc.SelectObjListByMainType(1)
+
+	data, err := json.Marshal(&result)
+	if err != nil {
+		beego.Info(err)
+	}
+	//beego.Info("data...", string(data))
+	c.Ctx.WriteString(string(data))
 }

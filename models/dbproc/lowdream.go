@@ -38,23 +38,21 @@ func InitSDSql() {
 	LowDreamORM.Using("low_dream")
 }
 
-//func SelectAllLotteryForUser(userID int, date string) (rows []ObjRow){
-//
-//	if nil == LowDreamORM {
-//		beego.Error("SelectAllLotteryForUser failed: db not connected")
-//		return nil
-//	}
-//	stable := beego.AppConfig.String("dsdb::tbpool") + date
-//
-//	num, err := LowDreamORM.Raw(fmt.Sprintf(`
-//		SELECT user_id,type,energy,energy,energy_give,
-//		scene,gift_id,gift_count,gift_energy,gift_energygive,
-//		gift_getter,time FROM %s where user_id=%d
-//		`, stable, userID)).QueryRows(&rows)
-//
-//	if err == nil {
-//		fmt.Println("item nums: ", num)
-//	}
-//
-//	return rows
-//}
+func SelectObjListByMainType(mainType int8) (rows []ObjRow){
+
+	if nil == LowDreamORM {
+		beego.Error("SelectObjListByMainType failed: db not connected")
+		return nil
+	}
+	stable := beego.AppConfig.String("dsdb::tbname")
+
+	num, err := LowDreamORM.Raw(fmt.Sprintf(`
+		SELECT * FROM %s where main_type=%d
+		`, stable, mainType)).QueryRows(&rows)
+
+	if err == nil {
+		fmt.Println("item nums: ", num)
+	}
+
+	return rows
+}

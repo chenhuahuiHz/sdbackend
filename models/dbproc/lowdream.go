@@ -45,15 +45,18 @@ func SelectObjListByMainType(mainType int) (rows []ObjRow){
 		beego.Error("SelectObjListByMainType failed: db not connected")
 		return nil
 	}
+
 	stable := beego.AppConfig.String("dsdb::tbname")
-
-	num, err := LowDreamORM.Raw(fmt.Sprintf(`
-		SELECT * FROM %s where main_type=%d
-		`, stable, mainType)).QueryRows(&rows)
-
-	if err == nil {
-		fmt.Println("item nums: ", num)
+	sql := ""
+	if mainType > 0 {
+		sql = fmt.Sprintf(`SELECT * FROM %s where main_type=%d`, stable, mainType)
+	} else {
+		sql = fmt.Sprintf(`SELECT * FROM %s`, stable) //for all
 	}
 
+	num, err := LowDreamORM.Raw(sql).QueryRows(&rows)
+	if err == nil {
+		fmt.Println("SELECTed item nums: ", num)
+	}
 	return rows
 }

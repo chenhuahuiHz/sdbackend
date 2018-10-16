@@ -9,22 +9,6 @@ import (
 )
 
 var LowDreamORM orm.Ormer
-
-type SqlCache struct {
-	objListCache map[string][]ObjRow
-}
-
-func (this *SqlCache) setObjListCache(sql string, data []ObjRow) {
-	if len(data) > 0 {
-		this.objListCache[sql] = data
-	}
-}
-
-func (this *SqlCache) getObjListCache(sql string) (data []ObjRow, exist bool) {
-	data, exist = this.objListCache[sql]
-	return
-}
-
 var sqlCache SqlCache
 
 func InitSDSql() {
@@ -53,6 +37,7 @@ func InitSDSql() {
 
 	LowDreamORM = orm.NewOrm()
 	LowDreamORM.Using("low_dream")
+	sqlCache.init()
 }
 
 func SelectObjListByMainType(mainType int) (rows []ObjRow){

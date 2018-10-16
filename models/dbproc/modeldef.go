@@ -5,6 +5,7 @@ package dbproc
 
 import (
 	"strconv"
+	"github.com/astaxie/beego"
 )
 
 func MyAtoi(s string) int {
@@ -13,6 +14,38 @@ func MyAtoi(s string) int {
 		n = 0
 	}
 	return n
+}
+
+const MAX_HIT_CNT = 1000
+
+type SqlCache struct {
+	objListCache map[string][]ObjRow
+	hitCount map[string]uint32
+}
+
+func (this *SqlCache) init()  {
+	this.objListCache = make(map[string][]ObjRow)
+	this.hitCount = make(map[string]uint32)
+}
+
+func (this *SqlCache) setObjListCache(sql string, data []ObjRow) {
+	if len(data) > 0 {
+		this.objListCache[sql] = data
+		this.hitCount[sql] = 0
+	}
+}
+
+func (this *SqlCache) getObjListCache(sql string) (data []ObjRow, exist bool) {
+	data, exist = this.objListCache[sql]
+	if exist {
+		this.hitCount[sql]++
+		if this.hitCount[sql] > MAX_HIT_CNT {
+			this.hitCount[sql] = 0
+			delete(this.objListCache, sql)
+			beego.Info("hit time expired, clear cache for sql:", sql)
+		}
+	}
+	return
 }
 
 //`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,

@@ -18,3 +18,9 @@ func (c *MainController) ObjList() {
 	}
 	c.Ctx.WriteString(string(data))
 }
+
+func (c *MainController) Download() {
+	filename := c.GetString("filename")
+	beego.Info("download req for:", filename)
+	c.Ctx.Output.Download(filename)
+}

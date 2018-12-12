@@ -33,6 +33,7 @@ func (c *MainController) Show() {
 	ff, err := os.Open(filename)
 	if err != nil {
 		beego.Info(err)
+		c.Ctx.WriteString(err.Error())
 		return
 	}
 

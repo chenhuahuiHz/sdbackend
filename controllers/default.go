@@ -24,3 +24,10 @@ func (c *MainController) Download() {
 	beego.Info("download req for:", filename)
 	c.Ctx.Output.Download(filename)
 }
+
+func (c *MainController) Show() {
+	filename := c.GetString("pic")
+	beego.Info("show req for:", filename)
+	c.Ctx.Output.ContentType("jpg")
+	c.Ctx.Output.Body(readImage(filename))
+}

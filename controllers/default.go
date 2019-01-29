@@ -11,6 +11,12 @@ type MainController struct {
 	beego.Controller
 }
 
+
+func (c *MainController) Get() {
+	c.TplName = "index.html"
+	beego.Info(c.Data)
+}
+
 func (c *MainController) ObjList() {
 	result := dbproc.SelectObjListByMainType(dbproc.MyAtoi(c.GetString("maintype")))
 	data, err := json.Marshal(&result)

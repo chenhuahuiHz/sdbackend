@@ -109,7 +109,7 @@ func SelectBabyRecordOfToday(t int8) (rows []BabyRow){
 	beego.Info("SelectBabyRecordOfToday ...", t)
 
 	stable := beego.AppConfig.String("dsdb::tbbaby")
-	sql := fmt.Sprintf(`SELECT * FROM %s where type=%d and start_time>='%s'`, stable, t, time.Now().Format("2006-01-02")+" 00:00:00")
+	sql := fmt.Sprintf(`SELECT * FROM %s where type=%d and start_time>='%s' ORDER BY id desc`, stable, t, time.Now().Format("2006-01-02")+" 00:00:00")
 
 	if nil == LowDreamORM {
 		beego.Error("SelectBabyRecordOfToday failed: db not connected")

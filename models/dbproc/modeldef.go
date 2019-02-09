@@ -66,8 +66,8 @@ type ObjRow struct {
 // `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 // `type` tinyint(4) unsigned DEFAULT '1' COMMENT '1-吃奶 2-拉屎',
 // `state` tinyint(4) unsigned DEFAULT '0' COMMENT '0-进行中 1-结束',
-// `start_time` timestamp NOT NULL default CURRENT_TIMESTAMP,
-// `stop_time` timestamp default '0000-00-00 00:00:00',
+// `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+// `stop_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
 // `cost_seconds` bigint(20) unsigned DEFAULT '0',
 // `desc` varchar(128) DEFAULT '无',
 type BabyRow struct {
@@ -76,6 +76,6 @@ type BabyRow struct {
 	State		int8
 	StartTime	string
 	StopTime	string
-	costSeconds	uint32
+	CostSeconds	uint32
 	Desc		string
 }

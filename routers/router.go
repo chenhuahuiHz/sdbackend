@@ -10,4 +10,5 @@ func init() {
 	beego.Router("/objlist", &controllers.MainController{}, "*:ObjList")
 	beego.Router("/file/download", &controllers.MainController{}, "get:Download")
 	beego.Router("/show", &controllers.MainController{}, "get:Show")
+	beego.Router("/sd", &controllers.MainController{}, "*:Sd")
 }

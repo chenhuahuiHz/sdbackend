@@ -62,3 +62,16 @@ type ObjRow struct {
 	Price    uint32
 	Tast     uint32
 }
+
+// `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+// `type` tinyint(4) unsigned DEFAULT '1' COMMENT '1-吃奶 2-拉屎',
+// `act` tinyint(4) unsigned DEFAULT '0' COMMENT '0-开始 1-结束',
+// `time` timestamp NOT NULL default CURRENT_TIMESTAMP,
+// `desc` varchar(128) DEFAULT '无',
+type BabyRow struct {
+	Id		uint32
+	Type	int8
+	Act		int8
+	Time	string
+	Desc	string
+}

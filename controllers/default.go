@@ -48,3 +48,23 @@ func (c *MainController) Show() {
 	n, _ := ff.Read(buffer)
 	c.Ctx.Output.Body(buffer[:n])
 }
+
+func (c *MainController) Sd() {
+	act := c.GetString("act")
+	beego.Info("Sd req for:", act)
+
+	// insert a record
+	if act == "start" {
+		dbproc.InsertBabyRecord(1, 0, "")
+	} else if act == "stop" {
+		dbproc.InsertBabyRecord(1, 1, "")
+	}
+
+	// select today results
+	result := dbproc.SelectBabyRecordOfToday(1)
+	data, err := json.Marshal(&result)
+	if err != nil {
+		beego.Info(err)
+	}
+	c.Ctx.WriteString(string(data))
+}

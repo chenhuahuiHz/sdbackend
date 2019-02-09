@@ -65,13 +65,17 @@ type ObjRow struct {
 
 // `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 // `type` tinyint(4) unsigned DEFAULT '1' COMMENT '1-吃奶 2-拉屎',
-// `act` tinyint(4) unsigned DEFAULT '0' COMMENT '0-开始 1-结束',
-// `time` timestamp NOT NULL default CURRENT_TIMESTAMP,
+// `state` tinyint(4) unsigned DEFAULT '0' COMMENT '0-进行中 1-结束',
+// `start_time` timestamp NOT NULL default CURRENT_TIMESTAMP,
+// `stop_time` timestamp default '0000-00-00 00:00:00',
+// `cost_seconds` bigint(20) unsigned DEFAULT '0',
 // `desc` varchar(128) DEFAULT '无',
 type BabyRow struct {
-	Id		uint32
-	Type	int8
-	Act		int8
-	Time	string
-	Desc	string
+	Id			uint32
+	Type		int8
+	State		int8
+	StartTime	string
+	StopTime	string
+	costSeconds	uint32
+	Desc		string
 }

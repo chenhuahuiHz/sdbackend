@@ -55,14 +55,14 @@ func (c *MainController) Sd() {
 
 	// insert a record
 	if act == "start" {
-		dbproc.InsertBabyRecord(1, 0, "")
+		dbproc.StartBabyRecord(1)
 	} else if act == "stop" {
-		dbproc.InsertBabyRecord(1, 1, "")
+		dbproc.StopBabyRecord(1)
 	}
 
 	// select today results
-	result := dbproc.SelectBabyRecordOfToday(1)
-	data, err := json.Marshal(&result)
+	babyRows := dbproc.SelectBabyRecordOfToday(1)
+	data, err := json.Marshal(&babyRows)
 	if err != nil {
 		beego.Info(err)
 	}

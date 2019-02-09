@@ -72,32 +72,44 @@ func SelectObjListByMainType(mainType int) (rows []ObjRow){
 	return rows
 }
 
-func InsertBabyRecord(t int8, act int8, desc string) {
-	beego.Info("InsertBabyRecord ...", t, act, desc)
+func StartBabyRecord(t int8) {
+	beego.Info("StartBabyRecord ...", t)
 
 	stable := beego.AppConfig.String("dsdb::tbbaby")
-	sql := ""
-	if desc == "" {
-		sql = fmt.Sprintf(`insert into %s (type,act,time) values(%d, %d, 'NOW()')`, t, act)
-	} else {
-		sql = fmt.Sprintf(`insert into %s (type,act,time, desc) values(%d, %d, '%s')`, t, act, desc)
-	}
+	sql := fmt.Sprintf(`insert into %s (type) values(%d)`, stable, t)
 
 	if nil == LowDreamORM {
-		beego.Error("InsertBabyRecord failed: db not connected")
+		beego.Error("StartBabyRecord failed: db not connected")
 		return
 	}
 	_, err := LowDreamORM.Raw(sql).Exec()
 	if err != nil {
-		beego.Info("InsertBabyRecord ... err:", err.Error())
+		beego.Info("StartBabyRecord ... err:", err.Error())
+	}
+}
+
+func StopBabyRecord(t int8) {
+	beego.Info("StopBabyRecord ...", t)
+
+	stable := beego.AppConfig.String("dsdb::tbbaby")
+	// UPDATE t_baby_rcd SET stop_time=NOW(), cost_seconds=UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(start_time), state=1 WHERE state=0 and type=1 ORDER BY id desc LIMIT 1;
+	sql := fmt.Sprintf(`UPDATE %s SET stop_time=NOW(), cost_seconds=UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(start_time), state=1 WHERE state=0 and type=%d ORDER BY id desc LIMIT 1;`, stable, t)
+
+	if nil == LowDreamORM {
+		beego.Error("StopBabyRecord failed: db not connected")
+		return
+	}
+	_, err := LowDreamORM.Raw(sql).Exec()
+	if err != nil {
+		beego.Info("StopBabyRecord ... err:", err.Error())
 	}
 }
 
 func SelectBabyRecordOfToday(t int8) (rows []BabyRow){
-	beego.Info("SelectBabyRecordOfToday ...", t, act, desc)
+	beego.Info("SelectBabyRecordOfToday ...", t)
 
 	stable := beego.AppConfig.String("dsdb::tbbaby")
-	sql := fmt.Sprintf(`SELECT * FROM %s where type=%d and time>='%s'`, stable, time.Now().Format("2006-01-02")+" 00:00:00")
+	sql := fmt.Sprintf(`SELECT * FROM %s where type=%d and start_time>='%s'`, stable, t, time.Now().Format("2006-01-02")+" 00:00:00")
 
 	if nil == LowDreamORM {
 		beego.Error("SelectBabyRecordOfToday failed: db not connected")

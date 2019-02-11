@@ -162,9 +162,9 @@ func StatistBabyRecord(t int8) (txt string) {
 	today := time.Now().Format("2006-01-02") + " 00:00:00"
 	yestorday := time.Now().AddDate(0, 0, -1).Format("2006-01-02") + " 00:00:00"
 
-	yestordaySql := fmt.Sprintf(`SELECT count(0) as count, sum(cost_seconds) as sum FROM %s WHERE type = %d and start_time >= '%s' and start_time < '%s'`,
+	yestordaySql := fmt.Sprintf(`SELECT count(0) as count, sum(cost_seconds) as sum FROM %s WHERE type = %d and state=1 and start_time >= '%s' and start_time < '%s'`,
 		beego.AppConfig.String("dsdb::tbbaby"), t, yestorday, today)
-	todaySql := fmt.Sprintf(`SELECT count(0) as count, sum(cost_seconds) as sum FROM %s WHERE type = %d and start_time >= '%s'`,
+	todaySql := fmt.Sprintf(`SELECT count(0) as count, sum(cost_seconds) as sum FROM %s WHERE type = %d and state=1 and start_time >= '%s'`,
 		beego.AppConfig.String("dsdb::tbbaby"), t, today)
 
 	var yestordayResult StatistRow

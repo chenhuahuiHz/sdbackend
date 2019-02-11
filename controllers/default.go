@@ -2,15 +2,15 @@ package controllers
 
 import (
 	"encoding/json"
-	"github.com/astaxie/beego"
-	"sdbackend/models/dbproc"
 	"os"
+	"sdbackend/models/dbproc"
+
+	"github.com/astaxie/beego"
 )
 
 type MainController struct {
 	beego.Controller
 }
-
 
 func (c *MainController) Get() {
 	c.TplName = "index.html"
@@ -55,9 +55,17 @@ func (c *MainController) Sd() {
 
 	// insert a record
 	if act == "start" {
+		// 先结束空闲记录
+		dbproc.StopBabyRecord(0)
+		// 再开始
 		dbproc.StartBabyRecord(1)
 	} else if act == "stop" {
 		dbproc.StopBabyRecord(1)
+		// 结束后插入一条空闲记录
+		dbproc.StartBabyRecord(0)
+	} else if act == "statist" {
+		c.Ctx.WriteString(dbproc.StatistBabyRecord(1))
+		return
 	}
 
 	// select today results

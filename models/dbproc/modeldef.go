@@ -5,6 +5,7 @@ package dbproc
 
 import (
 	"strconv"
+
 	"github.com/astaxie/beego"
 )
 
@@ -20,10 +21,10 @@ const MAX_HIT_CNT = 1000
 
 type SqlCache struct {
 	objListCache map[string][]ObjRow
-	hitCount map[string]uint32
+	hitCount     map[string]uint32
 }
 
-func (this *SqlCache) init()  {
+func (this *SqlCache) init() {
 	this.objListCache = make(map[string][]ObjRow)
 	this.hitCount = make(map[string]uint32)
 }
@@ -71,11 +72,16 @@ type ObjRow struct {
 // `cost_seconds` bigint(20) unsigned DEFAULT '0',
 // `desc` varchar(128) DEFAULT '无',
 type BabyRow struct {
-	Id			uint32
-	Type		int8
-	State		int8
-	StartTime	string
-	StopTime	string
-	CostSeconds	uint32
-	Desc		string
+	Id          uint32
+	Type        int8
+	State       int8
+	StartTime   string
+	StopTime    string
+	CostSeconds uint32
+	Desc        string
+}
+
+type StatistRow struct {
+	Count uint32
+	Sum   uint32
 }

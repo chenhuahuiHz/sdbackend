@@ -2,7 +2,6 @@ package dbproc
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
@@ -33,7 +32,7 @@ func InitSDSql() {
 		beego.Error("init mysql db error.")
 		return
 	}
-	
+
 	beego.Info("init mysql ok")
 
 	LowDreamORM = orm.NewOrm()
@@ -41,7 +40,7 @@ func InitSDSql() {
 	sqlCache.init()
 }
 
-func SelectObjListByMainType(mainType int) (rows []ObjRow){
+func SelectObjListByMainType(mainType int) (rows []ObjRow) {
 
 	beego.Info("SelectObjListByMainType ...", mainType)
 
@@ -105,11 +104,14 @@ func StopBabyRecord(t int8) {
 	}
 }
 
-func SelectBabyRecordOfToday(t int8) (rows []BabyRow){
+func SelectBabyRecordOfToday(t int8) (rows []BabyRow) {
 	beego.Info("SelectBabyRecordOfToday ...", t)
 
 	stable := beego.AppConfig.String("dsdb::tbbaby")
-	sql := fmt.Sprintf(`SELECT * FROM %s where type=%d and start_time>='%s' ORDER BY id desc`, stable, t, time.Now().Format("2006-01-02")+" 00:00:00")
+
+	// return last 15 items is better
+	//sql := fmt.Sprintf(`SELECT * FROM %s where type=%d and start_time>='%s' ORDER BY id desc`, stable, t, time.Now().Format("2006-01-02")+" 00:00:00")
+	sql := fmt.Sprintf(`SELECT * FROM %s where type=%d ORDER BY id desc limit 15`, stable, t)
 
 	if nil == LowDreamORM {
 		beego.Error("SelectBabyRecordOfToday failed: db not connected")

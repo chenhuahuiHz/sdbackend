@@ -191,12 +191,35 @@ func StatistBabyRecord(t int8) (txt string) {
 		avgToday = int(todayResult.Sum / todayResult.Count)
 	}
 
+	var ysetordayInter StatistRow
+	err := LowDreamORM.Raw(fmt.Sprintf(`SELECT count(0) as count, sum(cost_seconds) as sum FROM %s WHERE type = 0 and state=1 and start_time >= '%s' and start_time < '%s'`,
+		beego.AppConfig.String("dsdb::tbbaby"), yestorday, today)).QueryRow(&ysetordayInter)
+	if err != nil {
+		beego.Info("StatistBabyRecord ... err:", err.Error())
+		return err.Error()
+	}
+
+	var todayInter StatistRow
+	err := LowDreamORM.Raw(fmt.Sprintf(`SELECT count(0) as count, sum(cost_seconds) as sum FROM %s WHERE type = 0 and state=1 and start_time >= '%s'`,
+		beego.AppConfig.String("dsdb::tbbaby"), today)).QueryRow(&todayInter)
+	if err != nil {
+		beego.Info("StatistBabyRecord ... err:", err.Error())
+		return err.Error()
+	}
+	avgInterYestorday, avgInterToday := 0, 0
+	if ysetordayInter.Count > 0 {
+		avgInterYestorday = int(ysetordayInter.Sum / ysetordayInter.Count)
+	}
+	if todayInter.Count > 0 {
+		avgInterToday = int(todayInter.Sum / todayInter.Count)
+	}
+
 	// txt = fmt.Sprintf(`<font color='red'>昨天</font>共饲养%d次，总时长%s，平均每次%s。<br><font color='green'>今天</font>已饲养%d次，总时长%s，平均每次%s。`,
 	// 	yestordayResult.Count, formatSeconds(int(yestordayResult.Sum)), formatSeconds(avgYestorday),
 	// 	todayResult.Count, formatSeconds(int(todayResult.Sum)), formatSeconds(avgToday))
-	txt = fmt.Sprintf(`昨天共饲养%d次，总时长%s，平均每次%s。\r\n今天已饲养%d次，总时长%s，平均每次%s。`,
-		yestordayResult.Count, formatSeconds(int(yestordayResult.Sum)), formatSeconds(avgYestorday),
-		todayResult.Count, formatSeconds(int(todayResult.Sum)), formatSeconds(avgToday))
+	txt = fmt.Sprintf(`昨天共饲养%d次，总时长%s，平均每次%s，平均间隔%s。\r\n今天已饲养%d次，总时长%s，平均每次%s，平均间隔%s。`,
+		yestordayResult.Count, formatSeconds(int(yestordayResult.Sum)), formatSeconds(avgYestorday), formatSeconds(avgInterYestorday),
+		todayResult.Count, formatSeconds(int(todayResult.Sum)), formatSeconds(avgToday), formatSeconds(avgInterToday))
 
 	return txt
 }

@@ -192,7 +192,7 @@ func StatistBabyRecord(t int8) (txt string) {
 	}
 
 	var ysetordayInter StatistRow
-	err := LowDreamORM.Raw(fmt.Sprintf(`SELECT count(0) as count, sum(cost_seconds) as sum FROM %s WHERE type = 0 and state=1 and start_time >= '%s' and start_time < '%s'`,
+	err = LowDreamORM.Raw(fmt.Sprintf(`SELECT count(0) as count, sum(cost_seconds) as sum FROM %s WHERE type = 0 and state=1 and start_time >= '%s' and start_time < '%s'`,
 		beego.AppConfig.String("dsdb::tbbaby"), yestorday, today)).QueryRow(&ysetordayInter)
 	if err != nil {
 		beego.Info("StatistBabyRecord ... err:", err.Error())
@@ -200,7 +200,7 @@ func StatistBabyRecord(t int8) (txt string) {
 	}
 
 	var todayInter StatistRow
-	err := LowDreamORM.Raw(fmt.Sprintf(`SELECT count(0) as count, sum(cost_seconds) as sum FROM %s WHERE type = 0 and state=1 and start_time >= '%s'`,
+	err = LowDreamORM.Raw(fmt.Sprintf(`SELECT count(0) as count, sum(cost_seconds) as sum FROM %s WHERE type = 0 and state=1 and start_time >= '%s'`,
 		beego.AppConfig.String("dsdb::tbbaby"), today)).QueryRow(&todayInter)
 	if err != nil {
 		beego.Info("StatistBabyRecord ... err:", err.Error())

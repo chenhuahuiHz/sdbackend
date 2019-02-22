@@ -217,7 +217,7 @@ func StatistBabyRecord(t int8) (txt string) {
 	// txt = fmt.Sprintf(`<font color='red'>昨天</font>共饲养%d次，总时长%s，平均每次%s。<br><font color='green'>今天</font>已饲养%d次，总时长%s，平均每次%s。`,
 	// 	yestordayResult.Count, formatSeconds(int(yestordayResult.Sum)), formatSeconds(avgYestorday),
 	// 	todayResult.Count, formatSeconds(int(todayResult.Sum)), formatSeconds(avgToday))
-	txt = fmt.Sprintf(`昨天共饲养%d次，总时长%s，平均每次%s，平均间隔%s。\r\n今天已饲养%d次，总时长%s，平均每次%s，平均间隔%s。`,
+	txt = fmt.Sprintf("昨天共饲养%d次，总时长%s，平均每次%s，平均间隔%s。\r\n今天已饲养%d次，总时长%s，平均每次%s，平均间隔%s。",
 		yestordayResult.Count, formatSeconds(int(yestordayResult.Sum)), formatSeconds(avgYestorday), formatSeconds(avgInterYestorday),
 		todayResult.Count, formatSeconds(int(todayResult.Sum)), formatSeconds(avgToday), formatSeconds(avgInterToday))
 

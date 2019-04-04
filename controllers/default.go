@@ -76,3 +76,10 @@ func (c *MainController) Sd() {
 	}
 	c.Ctx.WriteString(string(data))
 }
+
+func (c *MainController) Qrchat() {
+	txt := c.GetString("txt")
+	beego.Info("Qrchat req for:", txt)
+	dbproc.InsertQrchatRecord(txt)
+	c.Ctx.WriteString("ok")
+}

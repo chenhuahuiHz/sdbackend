@@ -223,3 +223,17 @@ func StatistBabyRecord(t int8) (txt string) {
 
 	return txt
 }
+
+func InsertQrchatRecord(txt string) {
+	if nil == LowDreamORM {
+		beego.Error("InsertQrchatRecord failed: db not connected")
+		return
+	}
+	beego.Info("InsertQrchatRecord ...", txt)
+	stable := beego.AppConfig.String("dsdb::tbqrchat")
+	sql := fmt.Sprintf(`insert into %s (txt) values('%s')`, stable, txt)
+	_, err := LowDreamORM.Raw(sql).Exec()
+	if err != nil {
+		beego.Info("InsertQrchatRecord ... err:", err.Error())
+	}
+}

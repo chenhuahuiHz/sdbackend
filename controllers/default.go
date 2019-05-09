@@ -44,7 +44,7 @@ func (c *MainController) Show() {
 	}
 
 	defer ff.Close()
-	buffer := make([]byte, 1500000)
+	buffer := make([]byte, 2000000)
 	n, _ := ff.Read(buffer)
 	c.Ctx.Output.Body(buffer[:n])
 }
